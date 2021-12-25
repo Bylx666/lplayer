@@ -1,263 +1,39 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF-8">
-    <title>LPlayer Dev</title>
-</head>
-<body>
-    <div id="playerContainer">
-        <lplayer>
-            <div id="lpl-list">
-                <div class="lpl-list-item">
-                    <div class="lpl-list-item-num">2</div>
-                    <div class="lpl-list-item-title">Moon Halog</div>
-                    <div class="lpl-list-item-artist">Moon Halog</div>
-                </div>
-                <div class="lpl-list-item">
-                    <div class="lpl-list-item-num">23</div>
-                    <div class="lpl-list-item-title">Legend Apex</div>
-                    <div class="lpl-list-item-artist">Moon Halog</div>
-                </div>
-                <div class="lpl-list-item"></div>
-                <div class="lpl-list-item"></div>
-                <div class="lpl-list-item"></div>
-                <div class="lpl-list-item"></div>
-                <div class="lpl-list-item"></div>
-            </div>
-            <div id="lpl-body">
-                <div id="lpl-cover"></div>
-                <div id="lpl-title">START:DASH!!</div>
-                <div id="lpl-artist">μ's</div>
-                <div id="lpl-album">No brand girls / START:DASH!!</div>
-                <div id="lpl-control">
-                    <div class="lpl-control-play"></div>
-                    <div class="lpl-control-previous"></div>
-                    <div class="lpl-control-order"></div>
-                    <div class="lpl-control-next"></div>
-                    <div class="lpl-control-volume"></div>
-                    <div id="lpl-control-volumeController">
-                        <div class="lpl-control-volumeController-progress"></div>
-                        <div class="lpl-control-volumeController-progressThumb"></div>
-                    </div>
-                    <div class="lpl-control-list"></div>   
-                </div>
-                <div id="lpl-control-progressBar">
-                    <div class="lpl-control-progressBar-progress"></div>
-                    <div class="lpl-control-progressBar-progressThumb"></div>
-                </div>
-            </div>
-        </lplayer>
+<div id="lpl-list">
+    <div class="lpl-list-item">
+        <div class="lpl-list-item-num">2</div>
+        <div class="lpl-list-item-title">Moon Halog</div>
+        <div class="lpl-list-item-artist">Moon Halog</div>
     </div>
-    <!-- <script src="lplayer.js"></script> -->
-    <style>
-        #playerContainer{
-            position: absolute;
-            top: 30%;
-            left: 0;
-            width: 60%;
-            height: 30%;
-        }
-        #lpl-body{
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100px;
-            width: 100%;
-            background: rgb(255, 255, 255);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        #lpl-cover{
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background-image: url(asset/cover.jpg);
-        }
-        #lpl-title{
-            position: absolute;
-            left: 120px;
-            top: 10px;
-            font-weight: 600;
-            font-size: 20px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-        #lpl-artist{
-            position: absolute;
-            left: 120px;
-            top: 40px;
-            font-size: 15px;
-            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
-            color: rgba(0, 0, 0, 0.5);
-        }
-        #lpl-album{
-            position: absolute;
-            left: 120px;
-            top: 60px;
-            font-size: 15px;
-            text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
-            color: rgba(0, 0, 0, 0.5);
-        }
-        #lpl-control{
-            position: absolute;
-            left: 100px;
-            top: 0;
-            width: calc(100% - 100px);
-            height: 100px;
-            background-color: rgba(255, 255, 255, 0.7);
-        }
-            .lpl-control-play{
-                position: absolute;
-                top: 30px;
-                left: 30px;
-                width: 40px;
-                height: 40px;
-                background-image: url(asset/icons/black/play.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lpl-control-previous{
-                position: absolute;
-                top: 35px;
-                left: 90px;
-                width: 30px;
-                height: 30px;
-                background-image: url(asset/icons/black/previous.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lpl-control-order{
-                position: absolute;
-                top: 35px;
-                left: 130px;
-                width: 30px;
-                height: 30px;
-                background-image: url(asset/icons/black/shuffle.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lpl-control-next{
-                position: absolute;
-                top: 35px;
-                left: 170px;
-                width: 30px;
-                height: 30px;
-                background-image: url(asset/icons/black/next.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lpl-control-volume{
-                position: absolute;
-                top: 35px;
-                left: 210px;
-                width: 30px;
-                height: 30px;
-                background-image: url(asset/icons/black/volume.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            .lpl-control-list{
-                position: absolute;
-                top: 35px;
-                right: 20px;
-                width: 30px;
-                height: 30px;
-                background-image: url(asset/icons/black/list.svg);
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: contain;
-            }
-            #lpl-control-volumeController{
-                position: absolute;
-                top: 45px;
-                left: 250px;
-                width: 100px;
-                height: 10px;
-                border-radius: 5px;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-                .lpl-control-volumeController-progress{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 50%;
-                    height: 100%;
-                    border-radius: 5px;
-                    background-color: rgba(233,81,147,0.7);
-                }
-                .lpl-control-volumeController-progressThumb{
-                    position: absolute;
-                    left: 50%;
-                    border: 8px solid rgb(233, 81, 147);
-                    border-radius: 50%;
-                    transform: translate(-8px,-3px);
-                }
-
-        #lpl-control-progressBar{
-            position: absolute;
-            left: 100px;
-            bottom: 0;
-            width: calc(100% - 100px);
-            height: 10px;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-            .lpl-control-progressBar-progress{
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 50%;
-                height: 100%;
-                border-radius: 5px;
-                background-color: rgba(233,81,147,0.7);
-            }
-            .lpl-control-progressBar-progressThumb{
-                position: absolute;
-                left: 50%;
-                border: 8px solid rgb(233, 81, 147);
-                border-radius: 50%;
-                transform: translate(-8px,-3px);
-            }
-
-        #lpl-list{
-            position: absolute;
-            top: 100px;
-            height: calc(100% - 100px);
-            width: 100%;
-            overflow-y: scroll;
-            box-shadow: 0 0 10px rgb(0, 0, 0);
-        }
-            .lpl-list-item{
-                overflow: visible;
-                position: relative;
-                height: 30px;
-                width: 100%;
-                background-color: rgb(255, 255, 255);
-                border-top: 1px solid rgba(0, 0, 0, 0.5);
-            }
-                .lpl-list-item-num{
-                    position: absolute;
-                    left: 10px;
-                    top: 2px;
-                    font-size: 26px;
-                    color: rgba(0, 0, 0, 0.5);
-                }
-                .lpl-list-item-title{
-                    z-index: 1;
-                    position: absolute;
-                    left: 60px;
-                    top: 2px;
-                    font-size: 26px;
-                    color: rgb(0, 0, 0);
-                }
-                .lpl-list-item-artist{
-                    z-index: 1;
-                    position: absolute;
-                    right: 10px;
-                    top: 2px;
-                    font-size: 26px;
-                    color: rgba(0, 0, 0, 0.7);
-                }
-    </style>
-</body>
+    <div class="lpl-list-item">
+        <div class="lpl-list-item-num">23</div>
+        <div class="lpl-list-item-title">Legend Apex</div>
+        <div class="lpl-list-item-artist">Moon Halog</div>
+    </div>
+    <div class="lpl-list-item"></div>
+    <div class="lpl-list-item"></div>
+    <div class="lpl-list-item"></div>
+    <div class="lpl-list-item"></div>
+    <div class="lpl-list-item"></div>
+</div>
+<div id="lpl-body">
+    <div id="lpl-cover"></div>
+    <div id="lpl-title">START:DASH!!</div>
+    <div id="lpl-artist">μ's</div>
+    <div id="lpl-album">No brand girls / START:DASH!!</div>
+    <div id="lpl-control">
+        <div class="lpl-control-play"></div>
+        <div class="lpl-control-previous"></div>
+        <div class="lpl-control-order"></div>
+        <div class="lpl-control-next"></div>
+        <div class="lpl-control-volume"></div>
+        <div id="lpl-control-volumeController">
+            <div class="lpl-control-volumeController-progress"></div>
+            <div class="lpl-control-volumeController-progressThumb"></div>
+        </div>
+        <div class="lpl-control-list"></div>   
+    </div>
+    <div id="lpl-control-progressBar">
+        <div class="lpl-control-progressBar-progress"></div>
+        <div class="lpl-control-progressBar-progressThumb"></div>
+    </div>
+</div>
