@@ -2,6 +2,17 @@
     {
         "title":"START:DASH!!",
         "artist":"μ's",
-        "album":"No brand girls / START:DASH!!"
+        "album":"No brand girls / START:DASH!!",
+        "url":"https://music.163.com/song/media/outer/url?id=26218091",
+        "cover":"http://p1.music.126.net/Dd9k4Ia7KbWrOJ56DyZH-g==/109951163230305154.jpg?param=130y130",
+        "lyric":"https://sukmusicapi.vercel.app/lyric?id=26218091"
+    },
+    {
+        "title":"No brand girls",
+        "artist":"μ's",
+        "album":"No brand girls / START:DASH!!",
+        "url":"https://music.163.com/song/media/outer/url?id=26218090",
+        "cover":"http://p1.music.126.net/Dd9k4Ia7KbWrOJ56DyZH-g==/109951163230305154.jpg?param=130y130",
+        "lyric":"https://sukmusicapi.vercel.app/lyric?id=26218090"
     }
 ]}
