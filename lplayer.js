@@ -11,20 +11,31 @@ var songData
 online()
 
 function online(){
-    function get(url) { 
+    getPlayerContent()
+    getSongData()
+    function getPlayerContent() { 
         var xhr = new XMLHttpRequest()
-        xhr.open('get',url)
+        xhr.open('get','https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html')
         xhr.send()
         xhr.onreadystatechange = function (){
-            if(xhr.status == 200 && xhr.readyState == 4)
-            return xhr.responseText
+            if(xhr.status == 200 && xhr.readyState == 4){
+                p.innerHTML = xhr.responseText
+            }
         }
-    }
-
-    p.innerHTML = get('https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html')
-    songData = JSON.parse(get('https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json'))
+     }
+    function getSongData() { 
+        var xhr = new XMLHttpRequest()
+        xhr.open('get','https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json')
+        xhr.send()
+        xhr.onreadystatechange = function (){
+            if(xhr.status == 200 && xhr.readyState == 4){
+                songData = JSON.parse(xhr.responseText)
+                console.log(songData)
+            }
+        }
+     }
+    
 }
-
 function d() {  }
 
 
