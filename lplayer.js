@@ -35,7 +35,7 @@ function online(){
      }
     function getSongData() { 
         var xhr = new XMLHttpRequest()
-        xhr.open('get','https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json')
+        xhr.open('get','https://raw.githubusercontent.com/Bylx666/lplayer/main/demo/songs.json')
         xhr.send()
         xhr.onreadystatechange = function (){
             if(xhr.status == 200 && xhr.readyState == 4){
@@ -58,16 +58,20 @@ function lplayerSongList() {
             "<div class='lpl-list-item-artist'>"+songData.songs[i].artist+"</div>"+
         "</div>"
         console.log(i)
-        document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',function () { currentSong = i-1;changeSong() })
     }
-    function changeSong() { 
-        document.getElementById('lpl-cover').style.backgroundImage = "url("+songData.songs[currentSong].cover+")"
-        songMedia.setAttribute('src',songData.songs[currentSong].url)
-        document.getElementById('lpl-title').innerHTML = songData.songs[currentSong].title
-        document.getElementById('lpl-artist').innerHTML = songData.songs[currentSong].artist
-        document.getElementById('lpl-album').innerHTML = songData.songs[currentSong].album
-        
-        console.log(currentSong)
+    for (let i = 0;i < songData.songs.length;i++) { 
+        document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',function () { 
+            changeSong(i)
+         })
+     }
+    function changeSong(i) { 
+        document.getElementById('lpl-cover').style.backgroundImage = "url("+songData.songs[i].cover+")"
+        songMedia.setAttribute('src',songData.songs[i].url)
+        document.getElementById('lpl-title').innerHTML = songData.songs[i].title
+        document.getElementById('lpl-artist').innerHTML = songData.songs[i].artist
+        document.getElementById('lpl-album').innerHTML = songData.songs[i].album
+        currentSong = i
+        console.log(i)
      }
  }
 function play() {  }
