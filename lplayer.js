@@ -4,6 +4,8 @@ var p = document.getElementsByTagName('lplayer')[0]
 var songData
 var songMedia = new Audio()
 var xhrReadyState = 0
+var isPlaying = false
+var currentSong = 0
 
 // stop 'online' function while local UI developing
 // For security, we prevent javascript while using iframe to test the UI in index.html.
@@ -55,14 +57,20 @@ function lplayerSongList() {
             "<div class='lpl-list-item-title'>"+songData.songs[i].title+"</div>"+
             "<div class='lpl-list-item-artist'>"+songData.songs[i].artist+"</div>"+
         "</div>"
-        document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',changeSong(i))
+        console.log(i)
+        document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',function () { currentSong = i-1;changeSong() })
     }
-    function changeSong(i) { 
-        document.getElementById('lpl-cover').style.backgroundImage = "url("+songData.songs[i].cover+")"
-        songMedia.setAttribute('src',songData.songs[i].url)
+    function changeSong() { 
+        document.getElementById('lpl-cover').style.backgroundImage = "url("+songData.songs[currentSong].cover+")"
+        songMedia.setAttribute('src',songData.songs[currentSong].url)
+        document.getElementById('lpl-title').innerHTML = songData.songs[currentSong].title
+        document.getElementById('lpl-artist').innerHTML = songData.songs[currentSong].artist
+        document.getElementById('lpl-album').innerHTML = songData.songs[currentSong].album
+        
+        console.log(currentSong)
      }
  }
-
+function play() {  }
 
 }
 
