@@ -172,6 +172,7 @@
 #lpl-list{
     position: absolute;
     top: 100px;
+    left: 0;
     height: calc(100% - 100px);
     width: 100%;
     overflow-y: scroll;
