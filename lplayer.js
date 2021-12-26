@@ -15,6 +15,7 @@ function LPlayerInit() {
     lplayerSongListInit()
     buttonsInit()
     firstSongInit()
+    readCookie()
  }
 
 
@@ -68,7 +69,7 @@ function firstSongInit() {
     }
     for (let i = 0;i < songData.songs.length;i++) { 
         document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',function () { 
-            LPlayerAPI.changeSong(i)
+            LPlayerAPI.changeSong(i);LPlayerAPI.play()
          })
      }
  }
@@ -107,6 +108,65 @@ function firstSongInit() {
         if(e.button==2) LPlayerAPI.hideController()
     })
  }
+
+function readCookie() { 
+    if(lplGetCookie('lplCookie-isListFold') != ''){
+        var isListFold = JSON.parse(lplGetCookie('lplCookie-isListFold'))
+        LPlayerAPI.isListFold = isListFold
+        if(isListFold){
+            document.getElementById('lpl-list').style.height = '0'
+        }
+    }
+    
+    if(lplGetCookie('lplCookie-currentSong') != ''){
+        var currentSong = lplGetCookie('lplCookie-currentSong')
+        LPlayerAPI.currentSong = currentSong
+        LPlayerAPI.changeSong(currentSong);
+    }
+    
+    if(lplGetCookie('lplCookie-playMode') != ''){
+        var playMode = lplGetCookie('lplCookie-playMode')
+        LPlayerAPI.playMode = playMode
+        var button = document.querySelector('.lpl-control-order').style
+        if(playMode=='repeat1'){
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/repeat1.svg)'
+        }
+        else if(playMode=='shuffle'){
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/shuffle.svg)'
+        }
+        else{
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/repeat.svg)'
+        }
+    }
+    
+    if(lplGetCookie('lplCookie-volume') != ''){
+        var volume = lplGetCookie('lplCookie-volume')
+        var button = document.querySelector('.lpl-control-volume').style
+        LPlayerAPI.memoryVolume = volume
+        LPlayerAPI.songMedia.volume = volume
+        if(LPlayerAPI.songMedia.volume==1) {
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume.svg)'
+        } else if(LPlayerAPI.songMedia.volume==0) {
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)'
+        } else{
+            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-half.svg)'
+        }
+        document.querySelector('.lpl-control-volumeController-progressThumb').style.left = 
+            document.querySelector('.lpl-control-volumeController-progress').style.width = 
+            volume * 100 + "%"
+    }
+    if(lplGetCookie('lplCookie-isMuted') != ''){
+        var isMuted = JSON.parse(lplGetCookie('lplCookie-isMuted'))
+        LPlayerAPI.isMuted = isMuted
+        if(isMuted){
+            console.log('233')
+            LPlayerAPI.songMedia.volume = 0
+            document.querySelector('.lpl-control-volumeController-progress').style.opacity = '0.5'
+            document.querySelector('.lpl-control-volume').style.opacity = '0.5'
+            document.querySelector('.lpl-control-volume').style.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)'
+        }
+    }
+ }
 }
 LPlayerInit()
 
@@ -131,7 +191,7 @@ var LPlayerAPI = {
         document.getElementById('lpl-album').innerHTML = sd.album
         this.currentSong = i
         this.isPlaying = false
-        this.play()
+        document.cookie = "lplCookie-currentSong="+this.currentSong+";SameSite=Lax"
      },
 
     play:function () { 
@@ -163,13 +223,13 @@ var LPlayerAPI = {
         }
         if(nextSong>this.songData.songs.length-1){nextSong=0}
         if(nextSong<0){nextSong=this.songData.songs.length-1}
-        this.changeSong(nextSong)
+        this.changeSong(nextSong);this.play()
      },
     previous:function () { 
         if(this.playMode=='repeat'){ 
             var nextSong = this.currentSong - 1
             if(nextSong<0){nextSong=this.songData.songs.length-1}
-            this.changeSong(nextSong)
+            this.changeSong(nextSong);this.play()
          }
         else this.next()
      },
@@ -187,6 +247,7 @@ var LPlayerAPI = {
             button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/repeat.svg)'
             this.playMode = 'repeat'
         }
+        document.cookie = "lplCookie-playMode="+this.playMode+";SameSite=Lax"
      },
 
     syncSongProgress:function (proportion){
@@ -272,6 +333,7 @@ var LPlayerAPI = {
         dragEnd:function () { 
             if(!this.isDragging) return
             this.isDragging=false
+            document.cookie = "lplCookie-volume="+this.proportion+";SameSite=Lax"
          },
 
         dirCli:function (e) { 
@@ -285,6 +347,7 @@ var LPlayerAPI = {
                 document.querySelector('.lpl-control-volumeController-progress').style.width = 
                 this.proportion * 100 + "%"
             LPlayerAPI.songMedia.volume = this.proportion
+            document.cookie = "lplCookie-volume="+this.proportion+";SameSite=Lax"
          }
      },
     volumeMute:function () { 
@@ -293,12 +356,12 @@ var LPlayerAPI = {
         if(!this.isMuted){
             this.memoryVolume = this.songMedia.volume
             this.songMedia.volume = 0
-            pb.opacity = '0.5'
+            pb.opacity = button.opacity = '0.5'
             button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)'
             this.isMuted = true
         } else{
             this.songMedia.volume = this.memoryVolume
-            pb.opacity = ''
+            pb.opacity = button.opacity = ''
             if(this.songMedia.volume==1) {
                 button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume.svg)'
             } else if(this.songMedia.volume==0) {
@@ -308,6 +371,7 @@ var LPlayerAPI = {
             }
             this.isMuted = false
         }
+        document.cookie = "lplCookie-isMuted="+this.isMuted+";SameSite=Lax"
      },
 
     foldList:function () { 
@@ -320,6 +384,7 @@ var LPlayerAPI = {
             list.height = 'calc(100% - 100px)'
             this.isListFold=false
         }
+        document.cookie = "lplCookie-isListFold="+this.isListFold+";SameSite=Lax"
      },
 
     hideController:function () { 
@@ -330,7 +395,6 @@ var LPlayerAPI = {
             document.getElementById('lpl-control').style.display = ''
             this.isControllerHidden = false
         }
-        
      }
 }
 
@@ -356,3 +420,20 @@ function lplMinuteParser(direction,value) {
         return ''
     }
  }
+ 
+/**
+ * 
+ * @param {string} cname Input the cookie name to read
+ * @returns a string of your cookie.
+ */
+ function lplGetCookie(cname) {
+    var ca = document.cookie.split(';')
+    for(var i=0; i<ca.length;i++) {
+        if(ca[i].includes(cname)) {
+            return ca[i].substring(
+                ca[i].indexOf('=') + 1
+            )
+        }
+    }
+    return ""
+}
