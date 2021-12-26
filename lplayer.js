@@ -1,10 +1,20 @@
+var lplSongList
+var lplHTMLFile
+var lplCssFile
 
 function LPlayerInit() { 
  var p = document.getElementsByTagName('lplayer')[0]
-
  var songData
  var xhrReadyState = 0
 
+ if(lplSongList!=undefined) console.log('input: '+lplSongList)
+ else lplSongList = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json'
+
+ if(lplHTMLFile) console.log('input: '+lplHTMLFile)
+ else lplHTMLFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html'
+
+ if(lplCssFile) console.log('input: '+lplCssFile)
+ else lplCssFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css'
 // stop 'online' function while local html developing
 // For security, we prevent javascript while using iframe to test the layout in index.html.
 // Please upload your 'index.html' file online and use XMLHttpRequest method to test scripts for new html file.
@@ -26,11 +36,12 @@ function LPlayerInit() {
     getSongData()
     function getPlayerContent() { 
         var xhr = new XMLHttpRequest()
-        xhr.open('get','https://raw.githubusercontent.com/Bylx666/lplayer/main/index.html')
+        xhr.open('get',lplHTMLFile)
         xhr.send()
         xhr.onreadystatechange = function (){
             if(xhr.status == 200 && xhr.readyState == 4){
                 p.innerHTML = xhr.responseText
+                p.innerHTML += "<link rel='stylesheet' type='text/css' href='"+lplCssFile+"'>"
                 xhrReadyState ++
                 if(xhrReadyState == 2) whenXhrReady()
             }
@@ -38,7 +49,7 @@ function LPlayerInit() {
      }
     function getSongData() { 
         var xhr = new XMLHttpRequest()
-        xhr.open('get','https://raw.githubusercontent.com/Bylx666/lplayer/main/demo/songs.json')
+        xhr.open('get',lplSongList)
         xhr.send()
         xhr.onreadystatechange = function (){
             if(xhr.status == 200 && xhr.readyState == 4){

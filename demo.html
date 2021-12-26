@@ -6,6 +6,7 @@
 </head>
 <body>
     <h1>Welcome to use LPlayer!</h1>
+    <h3>Tip: rightClick the controllers of the player can make them hidden!</h3>
     <!-- set my player styles by using a div element -->
     <div id="playerContainer">
         <!-- easily use a lplayer tagnamed element to active the player -->
@@ -14,18 +15,32 @@
             Something goes wrong ):
         </lplayer>
     </div>
+    <!-- set a container for the lyric -->
+    <div id="lyricContainer">
+        <llyric>
+            Something goes wrong ):
+        </llyric>
+    </div>
     <!-- 
         directly insert a source from the js file.
         By making source at the end to load the js file after your page.
     -->
-    <script src="../lplayer.js"></script>
+    <script src="lplayer.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css">
     <style>
         #playerContainer{
             position: absolute;
-            bottom: 300px;
+            bottom: 0;
             left: 0;
-            height: 300px;
-            width: 1000px;
+            height: 240px;
+            width: 600px;
+        }
+        #lyricContainer{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 500px;
+            width: 100%;
         }
     </style>
 </body>
