@@ -1,24 +1,24 @@
 
-function LPlayer() { 
-var p = document.getElementsByTagName('lplayer')[0]
-var songData
-var songMedia = new Audio()
-var xhrReadyState = 0
-var isPlaying = false
-var currentSong = 0
+function LPlayerInit() { 
+ var p = document.getElementsByTagName('lplayer')[0]
+ var songData
+ var xhrReadyState = 0
 
-// stop 'online' function while local UI developing
-// For security, we prevent javascript while using iframe to test the UI in index.html.
-// Please upload your file online and use XMLHttpRequest method to test scripts for new UI.
+// stop 'online' function while local html developing
+// For security, we prevent javascript while using iframe to test the layout in index.html.
+// Please upload your 'index.html' file online and use XMLHttpRequest method to test scripts for new html file.
+// Notice: css file is not in effect scope. It can be active at once.
 
-online()
+ online()
 
-function whenXhrReady() { 
-    lplayerSongList()
+ function whenXhrReady() { 
+    lplayerSongListInit()
+    buttonsInit()
+    firstSongInit()
  }
 
 
-function online(){
+ function online(){
     getPlayerContent()
     getSongData()
     function getPlayerContent() { 
@@ -39,14 +39,22 @@ function online(){
         xhr.send()
         xhr.onreadystatechange = function (){
             if(xhr.status == 200 && xhr.readyState == 4){
-                songData = JSON.parse(xhr.responseText)
+                songData = LPlayerAPI.songData = JSON.parse(xhr.responseText)
                 xhrReadyState ++
                 if(xhrReadyState == 2) whenXhrReady()
             }
         }
      }
 }
-function lplayerSongList() { 
+function firstSongInit() { 
+    var sd = LPlayerAPI.songData.songs[0]
+    LPlayerAPI.songMedia.setAttribute('src',sd.url)
+    document.getElementById('lpl-cover').style.backgroundImage = "url("+sd.cover+")"
+    document.getElementById('lpl-title').innerHTML = sd.title
+    document.getElementById('lpl-artist').innerHTML = sd.artist
+    document.getElementById('lpl-album').innerHTML = sd.album
+ }
+ function lplayerSongListInit() { 
     var list = document.getElementById('lpl-list')
     list.innerHTML = ''
     for(var i = 0;i < songData.songs.length;i++){
@@ -57,26 +65,97 @@ function lplayerSongList() {
             "<div class='lpl-list-item-title'>"+songData.songs[i].title+"</div>"+
             "<div class='lpl-list-item-artist'>"+songData.songs[i].artist+"</div>"+
         "</div>"
-        console.log(i)
     }
     for (let i = 0;i < songData.songs.length;i++) { 
         document.getElementsByClassName('lpl-list-item')[i].addEventListener('click',function () { 
-            changeSong(i)
+            LPlayerAPI.changeSong(i)
          })
      }
-    function changeSong(i) { 
-        document.getElementById('lpl-cover').style.backgroundImage = "url("+songData.songs[i].cover+")"
-        songMedia.setAttribute('src',songData.songs[i].url)
-        document.getElementById('lpl-title').innerHTML = songData.songs[i].title
-        document.getElementById('lpl-artist').innerHTML = songData.songs[i].artist
-        document.getElementById('lpl-album').innerHTML = songData.songs[i].album
-        currentSong = i
-        console.log(i)
-     }
  }
-function play() {  }
-
+ function buttonsInit() { 
+    var qs = function (className) { 
+        return document.querySelector("."+className)
+     } 
+    qs('lpl-control-play').addEventListener('click',function () { LPlayerAPI.play() })
+    qs('lpl-control-order').addEventListener('click',function () { LPlayerAPI.changePlayMode() })
+    qs('lpl-control-next').addEventListener('click',function () { LPlayerAPI.next() })
+    qs('lpl-control-previous').addEventListener('click',function () { LPlayerAPI.previous() })
+ }
 }
+LPlayerInit()
 
+var LPlayerAPI = {
+    songMedia:new Audio(),
+    isPlaying:false,
+    currentSong:0,
+    songData:'',
+    playMode:'repeat',
+    iconColor:'black',
 
-LPlayer()
+    changeSong:function (i) { 
+        var sd = this.songData.songs[i]
+        document.getElementById('lpl-cover').style.backgroundImage = "url("+sd.cover+")"
+        this.songMedia.setAttribute('src',sd.url)
+        document.getElementById('lpl-title').innerHTML = sd.title
+        document.getElementById('lpl-artist').innerHTML = sd.artist
+        document.getElementById('lpl-album').innerHTML = sd.album
+        this.currentSong = i
+        this.isPlaying = false
+        this.play()
+     },
+
+    play:function () { 
+        if(!this.isPlaying){
+            this.songMedia.play()
+            document.querySelector('.lpl-control-play').style.backgroundImage = 'url(asset/icons/'+this.iconColor+'/pause.svg)'
+            this.isPlaying = true
+        } else{
+            this.songMedia.pause()
+            document.querySelector('.lpl-control-play').style.backgroundImage = 'url(asset/icons/'+this.iconColor+'/play.svg)'
+            this.isPlaying = false
+        }
+     },
+    
+    next:function () { 
+        var nextSong
+        if(this.playMode=='repeat'){ 
+            nextSong = this.currentSong + 1
+         }
+        else if(this.playMode=='repeat1'){
+            nextSong = this.currentSong
+        }
+        else{
+            var max = this.songData.songs.length - 1
+            var min = 0
+            nextSong = Math.floor(Math.random()*(max-min+1)+min);
+            if(nextSong==this.currentSong) 
+                nextSong = Math.floor(Math.random()*(max-min+1)+min); // prevent repeated random song
+        }
+        if(nextSong>this.songData.songs.length-1){nextSong=0}
+        if(nextSong<0){nextSong=this.songData.songs.length-1}
+        this.changeSong(nextSong)
+     },
+    previous:function () { 
+        if(this.playMode=='repeat'){ 
+            var nextSong = this.currentSong - 1
+            if(nextSong<0){nextSong=this.songData.songs.length-1}
+            this.changeSong(nextSong)
+         }
+        else this.next()
+     },
+    changePlayMode:function () { 
+        var button = document.querySelector('.lpl-control-order').style
+        if(this.playMode=='repeat'){
+            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/repeat1.svg)'
+            this.playMode = 'repeat1'
+        }
+        else if(this.playMode=='repeat1'){
+            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/shuffle.svg)'
+            this.playMode = 'shuffle'
+        }
+        else{
+            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/repeat.svg)'
+            this.playMode = 'repeat'
+        }
+     }
+}
