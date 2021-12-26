@@ -79,6 +79,7 @@
     background-image: linear-gradient(rgba(255, 255, 255, 0.4) 0,rgba(255,255,255,0.7) 50%,rgba(255, 255, 255, 0.4) 100%);
 }
     .lpl-control-button{
+        cursor: pointer;
         transition: all 0.3s;
         position: absolute;
         width: 30px;
@@ -125,6 +126,7 @@
         opacity: 0.7;
     }
     #lpl-control-volumeController{
+        cursor: pointer;
         transition: all 0.3s;
         position: absolute;
         top: 45px;
@@ -156,6 +158,7 @@
     opacity: 0.7;
 }
 #lpl-control-progressBar{
+    cursor: pointer;
     transition: all 0.3s;
     position: absolute;
     left: 100px;
@@ -191,7 +194,12 @@
     overflow-y: scroll;
     box-shadow: 0 0 10px rgb(0, 0, 0);
 }
+    .lpl-list-item:hover{
+        background-color: rgba(233, 81, 147, 0.3);
+    }
     .lpl-list-item{
+        cursor: pointer;
+        transition: all 0.3s;
         overflow: visible;
         position: relative;
         height: 30px;
