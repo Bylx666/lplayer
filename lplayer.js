@@ -424,6 +424,8 @@ var LPlayerAPI = {
             for(var i = 0; i < lyricArray.length; i++) {
                 var time = lyricArray[i].substring(1,9)
                 time = lplMinuteParser('mts',time)
+                if(isNaN(time)) continue
+
                 LPlayerAPI.lyricTimeArray = LPlayerAPI.lyricTimeArray.concat([time])
                 
                 var content = lyricArray[i].substring(lyricArray[i].indexOf(']') + 1)
@@ -471,7 +473,7 @@ function lplMinuteParser(direction,value) {
         return output
     }
     else{
-        return ''
+        return NaN
     }
  }
  
