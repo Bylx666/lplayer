@@ -102,8 +102,9 @@ function firstSongInit() {
     document.addEventListener('mouseup',function () { LPlayerAPI.volumeDrag.dragEnd() })
     document.getElementById('lpl-control-volumeController').addEventListener('click',function (e) { LPlayerAPI.volumeDrag.dirCli(e) })
 
-    document.getElementById('lpl-control').addEventListener('click',function () { 
-        if(getSelection) document.getSelection().removeAllRanges() // prevent selecting
+    document.getElementById('lpl-body').oncontextmenu = function (e) { e.preventDefault() }
+    document.getElementById('lpl-body').addEventListener('mousedown',function (e) { 
+        if(e.button==2) LPlayerAPI.hideController()
     })
  }
 }
@@ -119,6 +120,7 @@ var LPlayerAPI = {
     iconColor:'black',
     memoryVolume:1,
     isMuted:false,
+    isControllerHidden:false,
 
     changeSong:function (i) { 
         var sd = this.songData.songs[i]
@@ -306,7 +308,6 @@ var LPlayerAPI = {
             }
             this.isMuted = false
         }
-        if(getSelection) document.getSelection().removeAllRanges()
      },
 
     foldList:function () { 
@@ -319,7 +320,17 @@ var LPlayerAPI = {
             list.height = 'calc(100% - 100px)'
             this.isListFold=false
         }
-        if(getSelection) document.getSelection().removeAllRanges()
+     },
+
+    hideController:function () { 
+        if(!this.isControllerHidden){
+            document.getElementById('lpl-control').style.display = 'none'
+            this.isControllerHidden = true
+        }else {
+            document.getElementById('lpl-control').style.display = ''
+            this.isControllerHidden = false
+        }
+        
      }
 }
 

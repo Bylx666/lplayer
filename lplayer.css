@@ -71,7 +71,12 @@
     color: rgb(255, 255, 255);
     background: rgba(233, 81, 147, 0.7);
 }
+#lpl-control:hover{
+    opacity: 1;
+}
 #lpl-control{
+    transition: opacity 0.3s;
+    opacity: 0;
     position: absolute;
     left: 100px;
     top: 0;
