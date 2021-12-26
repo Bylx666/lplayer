@@ -31,6 +31,10 @@
     font-size: 20px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
+#lpl-title::selection{
+    color: rgb(255, 255, 255);
+    background: rgba(233, 81, 147, 0.7);
+}
 #lpl-artist{
     position: absolute;
     left: 120px;
@@ -38,6 +42,10 @@
     font-size: 15px;
     text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
     color: rgba(0, 0, 0, 0.5);
+}
+#lpl-artist::selection{
+    color: rgb(255, 255, 255);
+    background: rgba(233, 81, 147, 0.7);
 }
 #lpl-album{
     position: absolute;
@@ -47,6 +55,10 @@
     text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
     color: rgba(0, 0, 0, 0.5);
 }
+#lpl-album::selection{
+    color: rgb(255, 255, 255);
+    background: rgba(233, 81, 147, 0.7);
+}
 #lpl-duration{
     position: absolute;
     right: 5px;
@@ -55,13 +67,17 @@
     text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.5);
     color: rgba(0, 0, 0, 0.5);
 }
+#lpl-duration::selection{
+    color: rgb(255, 255, 255);
+    background: rgba(233, 81, 147, 0.7);
+}
 #lpl-control{
     position: absolute;
     left: 100px;
     top: 0;
     width: calc(100% - 100px);
     height: 100px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.4) 0,rgba(255,255,255,0.7) 50%,rgba(255, 255, 255, 0.4) 100%);
 }
     .lpl-control-play{
         position: absolute;
@@ -152,6 +168,7 @@
             left: 50%;
             border: 8px solid rgb(233, 81, 147);
             border-radius: 50%;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
             transform: translate(-8px,-3px);
         }
 
@@ -177,10 +194,12 @@
         left: 50%;
         border: 8px solid rgb(233, 81, 147);
         border-radius: 50%;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.7);
         transform: translate(-8px,-3px);
     }
 
 #lpl-list{
+    transition: height 1s;
     position: absolute;
     top: 100px;
     left: 0;
@@ -211,6 +230,7 @@
             top: 2px;
             font-size: 26px;
             color: rgb(0, 0, 0);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
         .lpl-list-item-artist{
             z-index: 1;
@@ -219,4 +239,16 @@
             top: 2px;
             font-size: 26px;
             color: rgba(0, 0, 0, 0.7);
+        }
+        .lpl-list-item-num::selection{
+            color: rgb(255, 255, 255);
+            background: rgba(233, 81, 147, 0.7);
+        }
+        .lpl-list-item-title::selection{
+            color: rgb(255, 255, 255);
+            background: rgba(233, 81, 147, 0.7);
+        }
+        .lpl-list-item-artist::selection{
+            color: rgb(255, 255, 255);
+            background: rgba(233, 81, 147, 0.7);
         }
