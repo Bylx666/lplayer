@@ -1,6 +1,7 @@
 
 function LPlayerInit() { 
  var p = document.getElementsByTagName('lplayer')[0]
+
  var songData
  var xhrReadyState = 0
 
@@ -12,9 +13,10 @@ function LPlayerInit() {
  online()
 
  function whenXhrReady() { 
+    lyricSystemInit()
     lplayerSongListInit()
     buttonsInit()
-    firstSongInit()
+    if(lplGetCookie('lplCookie-isListFold') == '') LPlayerAPI.changeSong(0) // init first song
     readCookie()
  }
 
@@ -47,14 +49,7 @@ function LPlayerInit() {
         }
      }
 }
-function firstSongInit() { 
-    var sd = LPlayerAPI.songData.songs[0]
-    LPlayerAPI.songMedia.setAttribute('src',sd.url)
-    document.getElementById('lpl-cover').style.backgroundImage = "url("+sd.cover+")"
-    document.getElementById('lpl-title').innerHTML = sd.title
-    document.getElementById('lpl-artist').innerHTML = sd.artist
-    document.getElementById('lpl-album').innerHTML = sd.album
- }
+
  function lplayerSongListInit() { 
     var list = document.getElementById('lpl-list')
     list.innerHTML = ''
@@ -77,10 +72,10 @@ function firstSongInit() {
     var qs = function (className) { 
         return document.querySelector("."+className)
      } 
-     // Sync the progressbar in period
+     // Sync the progressbar and lyric in period
     setInterval(function () {
         if(LPlayerAPI.progressDrag.isDragging) return;
-        
+        if(LPlayerAPI.isLyricAvailable) LPlayerAPI.lyricScroller()
         LPlayerAPI.syncSongProgress() 
         if(LPlayerAPI.songMedia.currentTime==LPlayerAPI.songMedia.duration) 
             LPlayerAPI.next()
@@ -109,7 +104,13 @@ function firstSongInit() {
     })
  }
 
-function readCookie() { 
+ function lyricSystemInit() { 
+    if(document.getElementsByTagName('llyric')[0]==undefined) return
+    LPlayerAPI.isLyricAvailable = true
+    document.getElementsByTagName('llyric')[0].innerHTML = "<div id='llyricList'></div>"
+  }
+
+ function readCookie() { 
     if(lplGetCookie('lplCookie-isListFold') != ''){
         var isListFold = JSON.parse(lplGetCookie('lplCookie-isListFold'))
         LPlayerAPI.isListFold = isListFold
@@ -119,7 +120,7 @@ function readCookie() {
     }
     
     if(lplGetCookie('lplCookie-currentSong') != ''){
-        var currentSong = lplGetCookie('lplCookie-currentSong')
+        var currentSong = parseInt(lplGetCookie('lplCookie-currentSong'))
         LPlayerAPI.currentSong = currentSong
         LPlayerAPI.changeSong(currentSong);
     }
@@ -140,7 +141,7 @@ function readCookie() {
     }
     
     if(lplGetCookie('lplCookie-volume') != ''){
-        var volume = lplGetCookie('lplCookie-volume')
+        var volume = parseFloat(lplGetCookie('lplCookie-volume'))
         var button = document.querySelector('.lpl-control-volume').style
         LPlayerAPI.memoryVolume = volume
         LPlayerAPI.songMedia.volume = volume
@@ -172,15 +173,16 @@ LPlayerInit()
 
 var LPlayerAPI = {
     songMedia:new Audio(),
-    isPlaying:false,
     isListFold:false,
     currentSong:0,
     songData:'',
+    lyricTimeArray:[],
     playMode:'repeat',
     iconColor:'black',
     memoryVolume:1,
     isMuted:false,
     isControllerHidden:false,
+    isLyricAvailable:false,
 
     changeSong:function (i) { 
         var sd = this.songData.songs[i]
@@ -190,6 +192,7 @@ var LPlayerAPI = {
         document.getElementById('lpl-artist').innerHTML = sd.artist
         document.getElementById('lpl-album').innerHTML = sd.album
         this.currentSong = i
+        LPlayerAPI.lyricParser()
         this.isPlaying = false
         document.cookie = "lplCookie-currentSong="+this.currentSong+";SameSite=Lax"
      },
@@ -395,6 +398,52 @@ var LPlayerAPI = {
             document.getElementById('lpl-control').style.display = ''
             this.isControllerHidden = false
         }
+     },
+
+    lyricParser:function () { 
+        if(!this.isLyricAvailable) return
+        var lyric = this.songData.songs[this.currentSong].lyric
+        var xhr = new XMLHttpRequest()
+        xhr.open('get',lyric)
+        xhr.send()
+        xhr.onreadystatechange = function () { 
+            if(xhr.readyState==4&&xhr.status==200){
+                if(lyric.includes('/lyric?id=')){
+                    lyric = JSON.parse(xhr.responseText).lrc.lyric // 网易云API专用
+                }else {
+                    lyric = xhr.responseText
+                }
+                setLyric(lyric)
+            }
+         }
+
+        function setLyric(lyric) { 
+            document.getElementById('llyricList').innerHTML = ''
+            LPlayerAPI.lyricTimeArray = []
+            var lyricArray = lyric.split('\n')
+            for(var i = 0; i < lyricArray.length; i++) {
+                var time = lyricArray[i].substring(1,9)
+                time = lplMinuteParser('mts',time)
+                LPlayerAPI.lyricTimeArray = LPlayerAPI.lyricTimeArray.concat([time])
+                
+                var content = lyricArray[i].substring(lyricArray[i].indexOf(']') + 1)
+                document.getElementById('llyricList').innerHTML += "<div class='llyricText'>"+content+"</div>"
+            }
+        }
+     },
+    lyricScroller:function () { 
+        var now = LPlayerAPI.songMedia.currentTime
+        var txe = document.getElementsByClassName('llyricText')
+        var lcs = document.getElementsByTagName('llyric')[0].offsetHeight
+        var preTop = lcs / 50 - 1
+        for(var i = 0; i < txe.length; i++){
+            document.getElementsByClassName('llyricText')[i].className = "llyricText"
+            if(now > LPlayerAPI.lyricTimeArray[i] && now < LPlayerAPI.lyricTimeArray[i+1]){
+                document.getElementsByClassName('llyricText')[i].className = "llyricText selected"
+                document.getElementById('llyricList').style.top = - 50 * i + 20 * preTop + "px"
+                return
+            }
+        }
      }
 }
 
@@ -415,6 +464,11 @@ function lplMinuteParser(direction,value) {
         return output
     }
     else if(direction=='mts'){
+        var input = value.split(':')
+        var minute = parseInt(input[0])
+        var second = parseFloat(input[1])
+        var output = minute * 60 + second
+        return output
     }
     else{
         return ''

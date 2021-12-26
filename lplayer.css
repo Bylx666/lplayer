@@ -1,10 +1,4 @@
-#playerContainer{
-    position: absolute;
-    top: 30%;
-    left: 0;
-    width: 60%;
-    height: 30%;
-}
+
 #lpl-body{
     position: absolute;
     top: 0;
@@ -84,73 +78,54 @@
     height: 100px;
     background-image: linear-gradient(rgba(255, 255, 255, 0.4) 0,rgba(255,255,255,0.7) 50%,rgba(255, 255, 255, 0.4) 100%);
 }
-    .lpl-control-play{
+    .lpl-control-button{
+        transition: all 0.3s;
         position: absolute;
-        top: 30px;
-        left: 30px;
-        width: 40px;
-        height: 40px;
-        background-image: url(asset/icons/black/play.svg);
+        width: 30px;
+        top: 35px;
+        height: 30px;
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
+    }
+    .lpl-control-button:hover{
+        opacity: 0.7;
+    }
+    .lpl-control-button:active{
+        width: 24px;
+        height: 24px;
+        top: 38px;
+        left: calc(inherit + 3px)
+    }
+    .lpl-control-play{
+        left: 30px;
+        background-image: url(asset/icons/black/play.svg);
     }
     .lpl-control-previous{
-        position: absolute;
-        top: 35px;
         left: 90px;
-        width: 30px;
-        height: 30px;
         background-image: url(asset/icons/black/previous.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
     }
     .lpl-control-order{
-        position: absolute;
-        top: 35px;
         left: 130px;
-        width: 30px;
-        height: 30px;
         background-image: url(asset/icons/black/repeat.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
     }
     .lpl-control-next{
-        position: absolute;
-        top: 35px;
         left: 170px;
-        width: 30px;
-        height: 30px;
         background-image: url(asset/icons/black/next.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
     }
     .lpl-control-volume{
-        position: absolute;
-        top: 35px;
         left: 210px;
-        width: 30px;
-        height: 30px;
         background-image: url(asset/icons/black/volume.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
     }
     .lpl-control-list{
-        position: absolute;
-        top: 35px;
         right: 20px;
-        width: 30px;
-        height: 30px;
         background-image: url(asset/icons/black/list.svg);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: contain;
+    }
+    #lpl-control-volumeController:hover{
+        opacity: 0.7;
     }
     #lpl-control-volumeController{
+        transition: all 0.3s;
         position: absolute;
         top: 45px;
         left: 250px;
@@ -177,7 +152,11 @@
             transform: translate(-8px,-3px);
         }
 
+#lpl-control-progressBar:hover{
+    opacity: 0.7;
+}
 #lpl-control-progressBar{
+    transition: all 0.3s;
     position: absolute;
     left: 100px;
     bottom: 0;
@@ -191,7 +170,6 @@
         left: 0;
         width: 50%;
         height: 100%;
-        border-radius: 5px;
         background-color: rgba(233,81,147,0.7);
     }
     .lpl-control-progressBar-progressThumb{
@@ -256,4 +234,40 @@
         .lpl-list-item-artist::selection{
             color: rgb(255, 255, 255);
             background: rgba(233, 81, 147, 0.7);
+        }
+llyric{
+    height: inherit;
+    width: inherit;
+    position: fixed;
+    overflow: hidden;
+}
+    #llyricList{
+        transition: all 0.3s;
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+        .llyricText{
+            text-align: center;
+            color: black;
+            text-shadow: 1px 1px 4px black;
+            font-size: 20px;
+            position: relative;
+            width: 100%;
+            height: 50px;
+        }
+        .llyricText::selection{
+            color: rgb(255, 255, 255);
+            background: rgba(233, 81, 147, 0.7);
+        }
+        .llyricText.selected{
+            font-size: 30px;
+            color: rgba(233, 81, 147, 0.7);
+            text-shadow: 1px 1px 10px rgba(233, 81, 147, 0.7);
+            height: 75px;
+        }
+        .llyricText.dark{
+            color: white;
+            text-shadow: 1px 1px 4px rgb(255, 255, 255);
         }
