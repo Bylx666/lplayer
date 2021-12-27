@@ -2,7 +2,7 @@ var lplSongList;
 var lplHTMLFile;
 var lplCssFile;
 var lplIconPath;
-var lplOnload
+var lplOnload;
 
 function LPlayerInit() { 
  var p = document.getElementsByTagName('lplayer')[0];
