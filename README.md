@@ -1,11 +1,7 @@
 # Love Player
-<div style="background:rgba(233,81,147,0.3);border-radius:10px">
 Love Player使用灵活简单！简称LPlayer.支持网易云api！
 
 Love Player is the music player that is easy and flexible to use. LPlayer is the shortname of it.
-</div>
-
-***
 
 ## Features
 - Dark mode avalable.
@@ -16,8 +12,6 @@ Love Player is the music player that is easy and flexible to use. LPlayer is the
 - 外部可以调用播放器内部api，内部逻辑也依赖api编写，使用方便。
 - Custom styles by using your css file.
 - 可以轻松自定义styles
-
-***
 
 ## Get Started
 - See how the player work in `/demo/demo.html`
