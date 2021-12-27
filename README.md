@@ -1,7 +1,7 @@
 # Love Player
-Love Player使用灵活简单！简称LPlayer.支持网易云api！由原生js构建，无法使用nodejs。
+Love Player使用灵活简单！简称LPlayer.支持网易云api！由原生js构建,使用es6语法。
 
-Love Player is the music player that is easy and flexible to use. LPlayer is the shortname of it. UNAVAILABLE for nodejs!
+Love Player is the music player that is easy and flexible to use. LPlayer is the shortname of it. Uses ES6 codes.
 
 ## Features
 - Dark mode avalable.
