@@ -1,6 +1,7 @@
 var lplSongList;
 var lplHTMLFile;
 var lplCssFile;
+var lplIconPath;
 
 function LPlayerInit() { 
  var p = document.getElementsByTagName('lplayer')[0];
@@ -10,11 +11,14 @@ function LPlayerInit() {
  if(lplSongList!=undefined) console.log('input: '+lplSongList);
  else lplSongList = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json';
 
- if(lplHTMLFile) console.log('input: '+lplHTMLFile);
+ if(lplHTMLFile!=undefined) console.log('input: '+lplHTMLFile);
  else lplHTMLFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html';
 
- if(lplCssFile) console.log('input: '+lplCssFile);
+ if(lplCssFile!=undefined) console.log('input: '+lplCssFile);
  else lplCssFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css';
+
+ if(lplIconPath!=undefined) console.log('input: '+lplIconPath);
+ else lplIconPath = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/asset/icons/';
 // stop 'online' function while local html developing
 // For security, we prevent javascript while using iframe to test the layout in index.html.
 // Please upload your 'index.html' file online and use XMLHttpRequest method to test scripts for new html file.
@@ -141,13 +145,13 @@ function LPlayerInit() {
         LPlayerAPI.playMode = playMode;
         var button = document.querySelector('.lpl-control-order').style;
         if(playMode=='repeat1'){
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/repeat1.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat1.svg)';
         }
         else if(playMode=='shuffle'){
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/shuffle.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/shuffle.svg)';
         }
         else{
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/repeat.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat.svg)';
         }
     };
     
@@ -157,11 +161,11 @@ function LPlayerInit() {
         LPlayerAPI.memoryVolume = volume;
         LPlayerAPI.songMedia.volume = volume;
         if(LPlayerAPI.songMedia.volume==1) {
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
         } else if(LPlayerAPI.songMedia.volume==0) {
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
         } else{
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-half.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
         };
         document.querySelector('.lpl-control-volumeController-progressThumb').style.left = 
             document.querySelector('.lpl-control-volumeController-progress').style.width = 
@@ -175,7 +179,7 @@ function LPlayerInit() {
             LPlayerAPI.songMedia.volume = 0;
             document.querySelector('.lpl-control-volumeController-progress').style.opacity = '0.5';
             document.querySelector('.lpl-control-volume').style.opacity = '0.5';
-            document.querySelector('.lpl-control-volume').style.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)';
+            document.querySelector('.lpl-control-volume').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
         }
     };
  };
@@ -211,11 +215,11 @@ var LPlayerAPI = {
     play:function () { 
         if(!this.isPlaying){
             this.songMedia.play();
-            document.querySelector('.lpl-control-play').style.backgroundImage = 'url(asset/icons/'+this.iconColor+'/pause.svg)';
+            document.querySelector('.lpl-control-play').style.backgroundImage = 'url('+lplIconPath+this.iconColor+'/pause.svg)';
             this.isPlaying = true;
         } else{
             this.songMedia.pause();
-            document.querySelector('.lpl-control-play').style.backgroundImage = 'url(asset/icons/'+this.iconColor+'/play.svg)';
+            document.querySelector('.lpl-control-play').style.backgroundImage = 'url('+lplIconPath+this.iconColor+'/play.svg)';
             this.isPlaying = false;
         }
      },
@@ -250,15 +254,15 @@ var LPlayerAPI = {
     changePlayMode:function () { 
         var button = document.querySelector('.lpl-control-order').style;
         if(this.playMode=='repeat'){
-            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/repeat1.svg)';
+            button.backgroundImage = 'url('+lplIconPath+this.iconColor+'/repeat1.svg)';
             this.playMode = 'repeat1';
         }
         else if(this.playMode=='repeat1'){
-            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/shuffle.svg)';
+            button.backgroundImage = 'url('+lplIconPath+this.iconColor+'/shuffle.svg)';
             this.playMode = 'shuffle';
         }
         else{
-            button.backgroundImage = 'url(asset/icons/'+this.iconColor+'/repeat.svg)';
+            button.backgroundImage = 'url('+lplIconPath+this.iconColor+'/repeat.svg)';
             this.playMode = 'repeat';
         }
         document.cookie = "lplCookie-playMode="+this.playMode+";SameSite=Lax";
@@ -328,14 +332,14 @@ var LPlayerAPI = {
             var button = document.querySelector('.lpl-control-volume').style;
             if(now<0) {
                 now = 0;
-                button.backgroundImage='url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)';
+                button.backgroundImage='url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
             }
             else if(now>total) {
                 now = total;
-                button.backgroundImage='url(asset/icons/'+LPlayerAPI.iconColor+'/volume.svg)';
+                button.backgroundImage='url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
             }
             else{
-                button.backgroundImage='url(asset/icons/'+LPlayerAPI.iconColor+'/volume-half.svg)';
+                button.backgroundImage='url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
             };
             this.proportion = now / total;
             document.querySelector('.lpl-control-volumeController-progressThumb').style.left = 
@@ -371,17 +375,17 @@ var LPlayerAPI = {
             this.memoryVolume = this.songMedia.volume;
             this.songMedia.volume = 0;
             pb.opacity = button.opacity = '0.5';
-            button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)';
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
             this.isMuted = true;
         } else{
             this.songMedia.volume = this.memoryVolume;
             pb.opacity = button.opacity = '';
             if(this.songMedia.volume==1) {
-                button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume.svg)';
+                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
             } else if(this.songMedia.volume==0) {
-                button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-mute.svg)';
+                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
             } else{
-                button.backgroundImage = 'url(asset/icons/'+LPlayerAPI.iconColor+'/volume-half.svg)';
+                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
             }
             this.isMuted = false;
         }
