@@ -16,6 +16,9 @@
         </llyric>
     </div>
     <style>
+        body{
+            /* background: black; */
+        }
         #playerContainer{
             position: absolute;
             top: 30%;
@@ -32,5 +35,18 @@
         }
         
     </style>
+    <!-- 
+        you can test your layout files by using user options to use the global var. 
+        Localhost address is available. 
+    -->
+    <script>
+        lplCssFile = 'http://localhost:8080/lplayer.css'
+        lplHTMLFile = 'http://localhost:8080/index.html'
+        lplSongList = 'http://localhost:8080/demo/songs.json'
+        lplIconPath = 'http://localhost:8080/asset/icons/'
+        function lplOnload(){
+            // LPlayerAPI.darkMode()
+        }
+    </script>
     <script src="lplayer.js"></script>
 </body>
