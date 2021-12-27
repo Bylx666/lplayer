@@ -1,7 +1,7 @@
 # Love Player
-Love Player使用灵活简单！简称LPlayer.支持网易云api！
+Love Player使用灵活简单！简称LPlayer.支持网易云api！由原生js构建，无法使用nodejs。
 
-Love Player is the music player that is easy and flexible to use. LPlayer is the shortname of it.
+Love Player is the music player that is easy and flexible to use. LPlayer is the shortname of it. UNAVAILABLE for nodejs!
 
 ## Features
 - Dark mode avalable.
@@ -21,9 +21,9 @@ Love Player is the music player that is easy and flexible to use. LPlayer is the
 
 ### 1. import <https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/dist/lplayer.min.js>
 
-If you are using nodejs, import with your habit. Native javascript can be imported in your html document with `<script src="https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/dist/lplayer.min.js"></script>`
+You can import it in your html document with `<script src="https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/dist/lplayer.min.js"></script>`
 
-nodejs随喜好和项目结构来import，原生的话就在html里面添加`<script src="https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/dist/lplayer.min.js"></script>`标签。
+在html里面添加`<script src="https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/dist/lplayer.min.js"></script>`标签。
 
 ### 2. Use global variables (全局变量) from `lpl`(Love Player's Prefix): they are
 
