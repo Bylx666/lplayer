@@ -19,10 +19,6 @@ function LPlayerInit() {
 
  if(lplIconPath!=undefined) console.log('input: '+lplIconPath);
  else lplIconPath = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/asset/icons/';
-// stop 'online' function while local html developing
-// For security, we prevent javascript while using iframe to test the layout in index.html.
-// Please upload your 'index.html' file online and use XMLHttpRequest method to test scripts for new html file.
-// Notice: css file is not in effect scope. It can be active at once.
 
  online();
 

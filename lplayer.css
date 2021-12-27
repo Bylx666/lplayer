@@ -8,6 +8,9 @@
     background: rgb(255, 255, 255);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+#lpl-body.dark{
+    background: rgba(0, 0, 0, 0.7);
+}
 #lpl-cover{
     position: absolute;
     width: 100px;
@@ -24,6 +27,9 @@
     font-weight: 600;
     font-size: 20px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+#lpl-title.dark{
+    color: rgba(255,255,255,0.7);
 }
 #lpl-title::selection{
     color: rgb(255, 255, 255);
@@ -194,6 +200,9 @@
     overflow-y: scroll;
     box-shadow: 0 0 10px rgb(0, 0, 0);
 }
+#lpl-list.dark{
+    background: rgba(0, 0, 0, 0.7);
+}
     .lpl-list-item:hover{
         background-color: rgba(233, 81, 147, 0.3);
     }
@@ -222,6 +231,9 @@
             font-size: 26px;
             color: rgb(0, 0, 0);
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .lpl-list-item-title.dark{
+            color: rgb(255,255,255);
         }
         .lpl-list-item-artist{
             z-index: 1;
