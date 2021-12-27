@@ -458,7 +458,7 @@ var LPlayerAPI = {
             s('.lpl-control-list').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/list.svg)';
 
          }
-        buttonColorReset()
+        buttonColorReset();
         console.log('current main color is '+LPlayerAPI.iconColor);
      },
 

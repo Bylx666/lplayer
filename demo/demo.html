@@ -10,7 +10,7 @@
 <body>
     <h1>Welcome to use LPlayer!</h1>
     <h3>Tip: rightClick the controllers of the player can make them hidden!</br>右键播放器控制按钮可以隐藏它们！</h3>
-    <h3 onclick="turnOnDarkMode()">Click to test dark mode!</br>测试黑夜模式！</h3>
+    <h3 style="position:absolute;z-index:10" onclick="turnOnDarkMode()">Click to test dark mode!</br>测试黑夜模式！</h3>
     <!-- 
         set my player styles by using a div element
         用div的样式来规定播放器的大小
@@ -50,10 +50,10 @@
         // 自定义文件可以通过lpl的全局变量设置。
         // lplayer只使用了 4 个全局变量，不设置的话就会走配置（一定要设置songList啊！除非你是拉拉人
 
-        lplCssFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css'  // custom styles for the player. 自定义样式表~
-        lplHTMLFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html'  // custom layout html for the player. 插入lplayer标签用的html文件，尽量不要改除非源文件连接不上挂个源。
-        lplSongList = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json'  // CUSTOME the SONG LIST! 把歌单文件链接扔进去！不然就加载几首lovelive的歌了~
-        lplIconPath = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/asset/icons/'  // custome icons in the player. 嫌弃我审美？看好路径和文件名，加载自己的一套图标。
+        lplCssFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css';  // custom styles for the player. 自定义样式表~
+        lplHTMLFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html';  // custom layout html for the player. 插入lplayer标签用的html文件，尽量不要改除非源文件连接不上挂个源。
+        lplSongList = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json';  // CUSTOME the SONG LIST! 把歌单文件链接扔进去！不然就加载几首lovelive的歌了~
+        lplIconPath = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/asset/icons/';  // custome icons in the player. 嫌弃我审美？看好路径和文件名，加载自己的一套图标。
 
         // callback from the loaded player.
         // 播放器加载成功后会调用这个函数。里面可以使用api之类的。
@@ -62,11 +62,12 @@
             // 黑暗模式。如果你博客有黑主题的话建议使用这个api.
 
             // LPlayerAPI.darkMode()
-        }
+            console.log('Lplayer is loaded.')
+        };
 
         function turnOnDarkMode() { 
-            document.body.style.backgroundColor = 'wheat'
-            LPlayerAPI.darkMode()
+            document.body.style.backgroundColor = 'wheat';
+            LPlayerAPI.darkMode();
          }
     </script>
     <style>
