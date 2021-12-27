@@ -2,22 +2,23 @@ var lplSongList;
 var lplHTMLFile;
 var lplCssFile;
 var lplIconPath;
+var lplOnload
 
 function LPlayerInit() { 
  var p = document.getElementsByTagName('lplayer')[0];
  var songData;
  var xhrReadyState = 0;
 
- if(lplSongList!=undefined) console.log('input: '+lplSongList);
+ if(lplSongList!=undefined) console.log('Lplayer: input: '+lplSongList);
  else lplSongList = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/demo/songs.json';
 
- if(lplHTMLFile!=undefined) console.log('input: '+lplHTMLFile);
+ if(lplHTMLFile!=undefined) console.log('Lplayer: input: '+lplHTMLFile);
  else lplHTMLFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/index.html';
 
- if(lplCssFile!=undefined) console.log('input: '+lplCssFile);
+ if(lplCssFile!=undefined) console.log('Lplayer: input: '+lplCssFile);
  else lplCssFile = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/lplayer.css';
 
- if(lplIconPath!=undefined) console.log('input: '+lplIconPath);
+ if(lplIconPath!=undefined) console.log('Lplayer: input: '+lplIconPath);
  else lplIconPath = 'https://cdn.jsdelivr.net/gh/Bylx666/lplayer@main/asset/icons/';
 
  online();
@@ -459,7 +460,7 @@ var LPlayerAPI = {
 
          }
         buttonColorReset();
-        console.log('current main color is '+LPlayerAPI.iconColor);
+        console.log('Lplayer: current main color is '+LPlayerAPI.iconColor);
      },
 
     readCookie:function () { 
@@ -512,7 +513,6 @@ var LPlayerAPI = {
             var isMuted = JSON.parse(lplGetCookie('lplCookie-isMuted'));
             LPlayerAPI.isMuted = isMuted;
             if(isMuted){
-                console.log('233');
                 LPlayerAPI.songMedia.volume = 0;
                 document.querySelector('.lpl-control-volumeController-progress').style.opacity = '0.5';
                 document.querySelector('.lpl-control-volume').style.opacity = '0.5';
