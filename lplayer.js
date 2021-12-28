@@ -28,7 +28,7 @@ function LPlayerInit() {
     lplayerSongListInit();
     buttonsInit();
     if(lplGetCookie('lplCookie-isListFold') == '') LPlayerAPI.changeSong(0); // init first song
-    LPlayerAPI.readCookie();
+    readCookie();
     if(lplOnload != undefined) lplOnload()
  }
 
@@ -123,7 +123,63 @@ function LPlayerInit() {
     document.getElementsByTagName('llyric')[0].innerHTML = "<div id='llyricList'></div>";
   };
 
- 
+ function readCookie() { 
+    if(lplGetCookie('lplCookie-isListFold') != ''){
+        var isListFold = JSON.parse(lplGetCookie('lplCookie-isListFold'));
+        LPlayerAPI.isListFold = isListFold;
+        if(isListFold){
+            document.getElementById('lpl-list').style.height = '0';
+        }
+    };
+    
+    if(lplGetCookie('lplCookie-currentSong') != ''){
+        var currentSong = parseInt(lplGetCookie('lplCookie-currentSong'));
+        LPlayerAPI.currentSong = currentSong;
+        LPlayerAPI.changeSong(currentSong);
+    }
+    
+    if(lplGetCookie('lplCookie-playMode') != ''){
+        var playMode = lplGetCookie('lplCookie-playMode');
+        LPlayerAPI.playMode = playMode;
+        var button = document.querySelector('.lpl-control-order').style;
+        if(playMode=='repeat1'){
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat1.svg)';
+        }
+        else if(playMode=='shuffle'){
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/shuffle.svg)';
+        }
+        else{
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat.svg)';
+        }
+    };
+    
+    if(lplGetCookie('lplCookie-volume') != ''){
+        var volume = parseFloat(lplGetCookie('lplCookie-volume'));
+        var button = document.querySelector('.lpl-control-volume').style;
+        LPlayerAPI.memoryVolume = volume;
+        LPlayerAPI.songMedia.volume = volume;
+        if(LPlayerAPI.songMedia.volume==1) {
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
+        } else if(LPlayerAPI.songMedia.volume==0) {
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
+        } else{
+            button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
+        };
+        document.querySelector('.lpl-control-volumeController-progressThumb').style.left = 
+            document.querySelector('.lpl-control-volumeController-progress').style.width = 
+            volume * 100 + "%";
+    };
+    if(lplGetCookie('lplCookie-isMuted') != ''){
+        var isMuted = JSON.parse(lplGetCookie('lplCookie-isMuted'));
+        LPlayerAPI.isMuted = isMuted;
+        if(isMuted){
+            LPlayerAPI.songMedia.volume = 0;
+            document.querySelector('.lpl-control-volumeController-progress').style.opacity = '0.5';
+            document.querySelector('.lpl-control-volume').style.opacity = '0.5';
+            document.querySelector('.lpl-control-volume').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
+        }
+    }
+ }
 };
 LPlayerInit();
 
@@ -372,6 +428,9 @@ var LPlayerAPI = {
                 }
                 setLyric(lyric);
             }
+            else{
+                setLyric('[00:00.000]LPlayer \n')
+            }
          };
 
         function setLyric(lyric) { 
@@ -401,7 +460,7 @@ var LPlayerAPI = {
             if(now > LPlayerAPI.lyricTimeArray[i] && now < LPlayerAPI.lyricTimeArray[i+1]){
                 document.getElementsByClassName('llyricText')[i].className = "llyricText selected";
                 document.getElementById('llyricList').style.top = - 50 * i + 20 * preTop + "px";
-                return
+                continue
             }
         }
      },
@@ -451,7 +510,26 @@ var LPlayerAPI = {
             LPlayerAPI.iconColor='black';
         };
         function buttonColorReset() { 
-            LPlayerAPI.readCookie();
+            var vobutton = document.querySelector('.lpl-control-volume').style;
+            var pbbutton = document.querySelector('.lpl-control-order').style;
+            if(LPlayerAPI.songMedia.volume==1) {
+                vobutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
+            } else if(LPlayerAPI.songMedia.volume==0) {
+                vobutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
+            } else{
+                vobutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
+            };
+
+            if(LPlayerAPI.playMode=='repeat1'){
+                pbbutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat1.svg)';
+            }
+            else if(LPlayerAPI.playMode=='shuffle'){
+                pbbutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/shuffle.svg)';
+            }
+            else{
+                pbbutton.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat.svg)';
+            };
+
             if(LPlayerAPI.isPlaying) s('.lpl-control-play').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/play.svg)';
             else s('.lpl-control-play').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/play.svg)';
             s('.lpl-control-previous').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/previous.svg)';
@@ -463,63 +541,7 @@ var LPlayerAPI = {
         console.log('Lplayer: current main color is '+LPlayerAPI.iconColor);
      },
 
-    readCookie:function () { 
-        if(lplGetCookie('lplCookie-isListFold') != ''){
-            var isListFold = JSON.parse(lplGetCookie('lplCookie-isListFold'));
-            LPlayerAPI.isListFold = isListFold;
-            if(isListFold){
-                document.getElementById('lpl-list').style.height = '0';
-            }
-        };
-        
-        if(lplGetCookie('lplCookie-currentSong') != ''){
-            var currentSong = parseInt(lplGetCookie('lplCookie-currentSong'));
-            LPlayerAPI.currentSong = currentSong;
-            LPlayerAPI.changeSong(currentSong);
-        }
-        
-        if(lplGetCookie('lplCookie-playMode') != ''){
-            var playMode = lplGetCookie('lplCookie-playMode');
-            LPlayerAPI.playMode = playMode;
-            var button = document.querySelector('.lpl-control-order').style;
-            if(playMode=='repeat1'){
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat1.svg)';
-            }
-            else if(playMode=='shuffle'){
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/shuffle.svg)';
-            }
-            else{
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/repeat.svg)';
-            }
-        };
-        
-        if(lplGetCookie('lplCookie-volume') != ''){
-            var volume = parseFloat(lplGetCookie('lplCookie-volume'));
-            var button = document.querySelector('.lpl-control-volume').style;
-            LPlayerAPI.memoryVolume = volume;
-            LPlayerAPI.songMedia.volume = volume;
-            if(LPlayerAPI.songMedia.volume==1) {
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume.svg)';
-            } else if(LPlayerAPI.songMedia.volume==0) {
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
-            } else{
-                button.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-half.svg)';
-            };
-            document.querySelector('.lpl-control-volumeController-progressThumb').style.left = 
-                document.querySelector('.lpl-control-volumeController-progress').style.width = 
-                volume * 100 + "%";
-        };
-        if(lplGetCookie('lplCookie-isMuted') != ''){
-            var isMuted = JSON.parse(lplGetCookie('lplCookie-isMuted'));
-            LPlayerAPI.isMuted = isMuted;
-            if(isMuted){
-                LPlayerAPI.songMedia.volume = 0;
-                document.querySelector('.lpl-control-volumeController-progress').style.opacity = '0.5';
-                document.querySelector('.lpl-control-volume').style.opacity = '0.5';
-                document.querySelector('.lpl-control-volume').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/volume-mute.svg)';
-            }
-        }
-    },
+    
 };
 
 // global utils

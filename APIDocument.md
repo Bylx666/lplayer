@@ -184,14 +184,6 @@ Full function path: `LPlayAPI.progressDrag.dragStart(e)`
 
 {Number} full path: `LPlayAPI.progressDrag.startPosition`
 
-### `readCookie()`
-
-Full function path: `LPlayAPI.readCookie()`
-
-read cookies and apply to player
-
-读取cookie并应用
-
 ### `songData`
 
 {Array} full path: `LPlayAPI.songData`
