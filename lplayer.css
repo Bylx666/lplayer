@@ -298,6 +298,7 @@ llyric{
     width: inherit;
     position: fixed;
     overflow: hidden;
+    pointer-events: none;
 }
     #llyricList{
         transition: all 0.3s;
