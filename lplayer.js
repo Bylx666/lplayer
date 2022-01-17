@@ -466,50 +466,19 @@ var LPlayerAPI = {
      },
 
     darkMode:function () { 
-        var s = function (qs) { return document.querySelector(qs)};
-        var m = function (clsName) { 
-            for(var i=0;i<document.getElementsByClassName(clsName).length;i++) 
-                document.getElementsByClassName(clsName)[i].className = clsName+' dark'
-         };
-        var l = function (clsName) { 
-            for(var i=0;i<document.getElementsByClassName(clsName).length;i++) 
-                document.getElementsByClassName(clsName)[i].className = clsName
-         };
+        var el = (a,b) => document.getElementsByTagName('lplayer')[0].style.setProperty(a,b);
         if(LPlayerAPI.iconColor=='black'){
-            s('#lpl-list').className = 'dark';
-            s('#lpl-body').className = 'dark';
-            s('#lpl-title').className = 'dark';
-            s('#lpl-list').className = 'dark';
-            s('#lpl-artist').className = 'dark';
-            s('#lpl-album').className = 'dark';
-            s('#lpl-duration').className = 'dark';
-            s('#lpl-control').className = 'dark';
-            s('#lpl-control-volumeController').className = 'dark';
-            s('#lpl-control-progressBar').className = 'dark';
-            m('lpl-list-item');
-            m('lpl-list-item-title');
-            m('lpl-list-item-num');
-            m('lpl-list-item-artist');
-            LPlayerAPI.iconColor='white';
-        }
-        else{
-            s('#lpl-list').className = '';
-            s('#lpl-body').className = '';
-            s('#lpl-title').className = '';
-            s('#lpl-list').className = '';
-            s('#lpl-artist').className = '';
-            s('#lpl-album').className = '';
-            s('#lpl-duration').className = '';
-            s('#lpl-control').className = '';
-            s('#lpl-control-volumeController').className = '';
-            s('#lpl-control-progressBar').className = '';
-            l('lpl-list-item');
-            l('lpl-list-item-title');
-            l('lpl-list-item-num');
-            l('lpl-list-item-artist');
-            LPlayerAPI.iconColor='black';
+            el('--theme-rgb','255,255,255')
+            el('--theme-rgb-rev','0,0,0');
+            LPlayerAPI.iconColor='white'
+        } else {
+            el('--theme-rgb','0,0,0')
+            el('--theme-rgb-rev','255,255,255');
+            LPlayerAPI.iconColor='black'
         };
-        function buttonColorReset() { 
+        
+        // reset buttons
+        var s = function (el) { return document.querySelector(el) }
             var vobutton = document.querySelector('.lpl-control-volume').style;
             var pbbutton = document.querySelector('.lpl-control-order').style;
             if(LPlayerAPI.songMedia.volume==1) {
@@ -536,8 +505,6 @@ var LPlayerAPI = {
             s('.lpl-control-next').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/next.svg)';
             s('.lpl-control-list').style.backgroundImage = 'url('+lplIconPath+LPlayerAPI.iconColor+'/list.svg)';
 
-         }
-        buttonColorReset();
         console.log('Lplayer: current main color is '+LPlayerAPI.iconColor);
      },
 
